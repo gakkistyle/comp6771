@@ -1,0 +1,268 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "_Download vcpkg",
+            "type": "shell",
+            "command": "if",
+            "args": [
+                "[[",
+                "!",
+                "-d",
+                "${workspaceFolder}/vcpkg",
+                "]]",
+                ";",
+                "then",
+                "git",
+                "clone",
+                "https://github.com/Microsoft/vcpkg.git",
+                ";",
+                "fi"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+        },
+        {
+            "label": "_Pull vcpkg",
+            "type": "shell",
+            "command": "git",
+            "args": [
+                "pull"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg"
+            },
+            "dependsOn": [
+                "_Download vcpkg"
+            ]
+        },
+        {
+            "label": "_Bootstrap vcpkg",
+            "type": "shell",
+            "command": "./bootstrap-vcpkg.sh",
+            "args": [
+                "-disableMetrics"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg"
+            },
+            "dependsOn": [
+                "_Pull vcpkg"
+            ]
+        },
+        {
+            "label": "_Install vcpkg",
+            "type": "shell",
+            "command": "cp",
+            "args": [
+                "${workspaceFolder}/config/cmake/triplets/*",
+                "${workspaceFolder}/vcpkg/triplets/community/."
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": [
+                "_Bootstrap vcpkg"
+            ]
+        },
+        {
+            "label": "_Install Abseil",
+            "type": "shell",
+            "command": "./vcpkg",
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg",
+                "env": {
+                    "CC": "/usr/bin/clang-11",
+                    "CXX": "/usr/bin/clang++-11"
+                }
+            },
+            "linux": {
+                "args": [
+                    "install",
+                    "abseil:x64-linux-libcxx",
+                ]
+            },
+            "osx": {
+                "args": [
+                    "install",
+                    "abseil:x64-osx-libcxx",
+                ]
+            },
+            "windows": {
+                "args": [
+                    "install",
+                    "abseil:x64-mingw-libcxx",
+                ]
+            }
+        },
+        {
+            "label": "_Install Benchmark",
+            "type": "shell",
+            "command": "./vcpkg",
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg",
+                "env": {
+                    "CC": "/usr/bin/clang-11",
+                    "CXX": "/usr/bin/clang++-11"
+                }
+            },
+            "linux": {
+                "args": [
+                    "install",
+                    "benchmark:x64-linux-libcxx",
+                ]
+            },
+            "osx": {
+                "args": [
+                    "install",
+                    "benchmark:x64-osx-libcxx",
+                ]
+            },
+            "windows": {
+                "args": [
+                    "install",
+                    "benchmark:x64-mingw-libcxx",
+                ]
+            }
+        },
+        {
+            "label": "_Install Catch2",
+            "type": "shell",
+            "command": "./vcpkg",
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg",
+                "env": {
+                    "CC": "/usr/bin/clang-11",
+                    "CXX": "/usr/bin/clang++-11"
+                }
+            },
+            "linux": {
+                "args": [
+                    "install",
+                    "catch2:x64-linux-libcxx",
+                ]
+            },
+            "osx": {
+                "args": [
+                    "install",
+                    "catch2:x64-osx-libcxx",
+                ]
+            },
+            "windows": {
+                "args": [
+                    "install",
+                    "catch2:x64-mingw-libcxx",
+                ]
+            }
+        },
+        {
+            "label": "_Install {fmt}",
+            "type": "shell",
+            "command": "./vcpkg",
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg",
+                "env": {
+                    "CC": "/usr/bin/clang-11",
+                    "CXX": "/usr/bin/clang++-11"
+                }
+            },
+            "linux": {
+                "args": [
+                    "install",
+                    "fmt:x64-linux-libcxx",
+                ]
+            },
+            "osx": {
+                "args": [
+                    "install",
+                    "fmt:x64-osx-libcxx",
+                ]
+            },
+            "windows": {
+                "args": [
+                    "install",
+                    "fmt:x64-mingw-libcxx",
+                ]
+            }
+        },
+        {
+            "label": "_Install gsl-lite",
+            "type": "shell",
+            "command": "./vcpkg",
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg",
+                "env": {
+                    "CC": "/usr/bin/clang-11",
+                    "CXX": "/usr/bin/clang++-11"
+                }
+            },
+            "linux": {
+                "args": [
+                    "install",
+                    "gsl-lite:x64-linux-libcxx",
+                ]
+            },
+            "osx": {
+                "args": [
+                    "install",
+                    "gsl-lite:x64-osx-libcxx",
+                ]
+            },
+            "windows": {
+                "args": [
+                    "install",
+                    "gsl-lite:x64-mingw-libcxx-static",
+                ]
+            }
+        },
+        {
+            "label": "_Install range-v3",
+            "type": "shell",
+            "command": "./vcpkg",
+            "options": {
+                "cwd": "${workspaceFolder}/vcpkg",
+                "env": {
+                    "CC": "/usr/bin/clang-11",
+                    "CXX": "/usr/bin/clang++-11"
+                }
+            },
+            "linux": {
+                "args": [
+                    "install",
+                    "range-v3:x64-linux-libcxx",
+                ]
+            },
+            "osx": {
+                "args": [
+                    "install",
+                    "range-v3:x64-osx-libcxx-static",
+                ]
+            },
+            "windows": {
+                "args": [
+                    "install",
+                    "range-v3:x64-mingw-libcxx-static",
+                ]
+            }
+        },
+        {
+            "label": "Install all",
+            "type": "shell",
+            "command": "echo",
+            "args": [
+                "'Package installation complete.'"
+            ],
+            "dependsOn": [
+                "_Install vcpkg",
+                "_Install Abseil",
+                "_Install Benchmark",
+                "_Install Catch2",
+                "_Install {fmt}",
+                "_Install gsl-lite",
+                "_Install range-v3"
+            ],
+            "dependsOrder": "sequence"
+        }
+    ]
+}
